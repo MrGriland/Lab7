@@ -1,4 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 namespace Lab5
 {
     public class Human: Driving, ISmart
@@ -17,18 +24,28 @@ namespace Lab5
             set => surname = value;
         }
 
-        private int year;
-        public int Year
+        private int dateyear;
+        public int Dateyear
         {
-            get => year;
-            set => year = value;
+            get => dateyear;
+            set
+            {
+                if (value > 2020 || value < 1910)
+                {
+                    throw new HumanException("Дата рождения не может быть раньше 1910 года или позже 2020", value);
+                }
+                else
+                {
+                    dateyear = value;
+                }
+            }
         }
 
-        public Human(string name,string surname, int year)
+        public Human(string name,string surname, int dateyear)
         {
-            this.name = name;
-            this.surname = surname;
-            this.year = year;
+            Name = name;
+            Surname = surname;
+            Dateyear = dateyear;
         }
         public void Think()
         {
@@ -40,7 +57,7 @@ namespace Lab5
         }
         public void Info()
         {
-            Console.WriteLine($"Human {Name} {Surname} {Year} year");
+            Console.WriteLine($"Human {Name} {Surname} {Dateyear} year");
         }
         public override string ToString()
         {

@@ -1,60 +1,86 @@
 ﻿using Lab6;
 using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
+using System.Diagnostics;
 
 namespace Lab5
 {
+    public class CarException : Exception
+    {
+        public CarException(string message, int maxspeed)
+            : base(message)
+        {
+            Console.WriteLine($"Вы указали максимальную скорость {maxspeed} км.ч");
+        }
+    }
+    public class HumanException : Exception
+    {
+        public HumanException(string message, int dateyear)
+            : base(message)
+        {
+            Console.WriteLine($"Вы указали год рождения {dateyear}");
+        }
+    }
+    public class TransformerException : Exception
+    {
+        public TransformerException(string message, int iq)
+            : base(message)
+        {
+            Console.WriteLine($"Вы указали iq {iq}");
+        }
+    }
     class Program
     {
         static void Main(string[] args)
         {
-            #region task_5
             Engine engine = new Engine("diesel", 167, 7.1, 2.4);
-            Car car = new Car(4, 1222, 3.5, 210, 2004, "Volvo v60", engine);
-            car.Info();
-
-            if (car is Transport) Console.WriteLine("Объект car принадлежит классу Transport.\n");
-            else Console.WriteLine("Объект car не принадлежит классу Transport.\n");
-
-            Human human = new Human("Grisha", "Bulgak", 2002);
-            human.Info();
-            Engine engine1 = new Engine("diesel", 167, 7.1, 2.4);
-            Transformer transformer = new Transformer(4, 1700, 3.6, 250, 2016, "Range Rover", engine1);
-            transformer.Info();
-
-            if (transformer is Transport) Console.WriteLine("Объект transformer принадлежит классу Transport.\n");
-            else Console.WriteLine("Объект transformer не принадлежит классу Transport.\n");
-
-            if (human is Driving) Console.WriteLine("Объект human принадлежит классу Driving.\n");
-            else Console.WriteLine("Объект human не принадлежит классу Driving.\n");
-
-            Transport car_copy = car as Transport;
-            Console.WriteLine(car_copy.ToString());
-            #endregion
-
-            #region task_6
-            Car car1 = new Car(4, 1222, 3.5, 210, 2004, "Volvo v60", new Engine("petrol", 320, 8, 3.2));
-            Transformer transformer1 = new Transformer(4, 1222, 3.1, 230, 2018, "Volvo v40", new Engine("petrol", 320, 8.6, 3.0));
-            Printer printer = new Printer();
-            ISmart transformer3 = new Transformer(4, 1400, 3.4, 214, 2013, "Toyota Corolla", new Engine("petrol", 190, 7, 1.8));
-            transformer3.Info();
-            Transport[] transports = new Transport[] { car1, transformer1 };
-            Console.WriteLine();
-            foreach (var item in transports)
+            try
             {
-                printer.IAmPrinting(item);
-                Console.WriteLine();
-            }
-            #endregion
+                try { Car car1 = new Car(4, 1222, 3.5, 99, 2004, "Volvo v60", engine); }
+                catch (CarException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
 
-            Troop troop1 = new Troop(TroopType.Human, 200, 2002, "medium");
-            Troop troop2 = new Troop(TroopType.Transformer, 300, 2014, "medium");
-            Troop troop3 = new Troop(TroopType.Transformer, 1000, 2019, "maximal");
-            Troop troop4 = new Troop(TroopType.Human, 100, 1999, "minimal");
-            Army army = new Army(troop1, troop2, troop3, troop4);
-            army.Print();
-            army.DateFind();
-            army.TransformerPowerFind();
-            army.Count();
+
+                try { Car car1 = new Car(4, 1222, 3.5, 456, 2004, "Volvo v60", engine); }
+                catch (CarException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
+
+
+                try { Human human = new Human("Grisha", "Bulgak", 1900); }
+                catch (HumanException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
+
+
+                try { Human human1 = new Human("Grisha", "Bulgak", 2021); }
+                catch (HumanException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
+
+
+                try { Transformer transformer = new Transformer(4, 3000, 4.4, 366, 2017, "Range Rover", engine, 366); }
+                catch (TransformerException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
+
+                Car car3 = new Car(4, 1222, 3.5, 55, 2004, "Volvo v60", engine);
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Исключение: " + ex.Message);
+                Console.WriteLine($"Исключение было вызвано в следующем месте: {ex.InnerException}");
+                Console.WriteLine($"{ex.StackTrace}");
+            }
+            catch
+            {
+                Console.WriteLine($"Универсальный обработчик\n");
+            }
+            finally
+            {
+                int index;
+                index = -10;
+                Debug.Assert(index > -1, "Индекс массива должен быть больше или равен нулю!");
+                Console.WriteLine($"Выполнение программы завершено!");
+            }
         }
     }
 }

@@ -1,4 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Web;
 namespace Lab5
 {
     public class Car: Transport
@@ -6,8 +13,18 @@ namespace Lab5
         private int maxspeed;
         public int Maxspeed
         {
-            get => maxspeed;
-            set => maxspeed = value;
+            get { return maxspeed; }
+            set
+            {
+                if (value > 450 || value < 100)
+                {
+                    throw new CarException("Маскимальная скорость автомобиля не может быть меньше 100 км/ч или больше 450км/ч", value);
+                }
+                else
+                {
+                    maxspeed = value;
+                }
+            }
         }
 
         private int year;
@@ -33,10 +50,10 @@ namespace Lab5
 
         public Car(int wheels, int weight, double length, int maxspeed, int year, string name, Engine engine): base(wheels, weight, length)
         {
-            this.maxspeed = maxspeed;
-            this.year = year;
-            this.name = name;
-            this.engine = engine;
+            Maxspeed = maxspeed;
+            Year = year;
+            Name = name;
+            Engine = engine;
         }
         public override void Info()
         {
