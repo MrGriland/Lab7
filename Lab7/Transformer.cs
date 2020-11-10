@@ -15,13 +15,13 @@ namespace Lab5
             get => iq;
             set
             {
-                if (value > 300 || value< 1)
+                if (value==0)
                 {
-                    throw new TransformerException("Iq не может быть меньше 1 или больше 300", value);
-    }
+                    throw new TransformerException("Iq не может быть 0(нельзя делить на 0)", value);
+                }
                 else
                 {
-                    iq = value;
+                    iq = 1000/value;
                 }
             }
             }

@@ -16,7 +16,7 @@ namespace Lab5
         public CarException(string message, int maxspeed)
             : base(message)
         {
-            Console.WriteLine($"Вы указали максимальную скорость {maxspeed} км.ч");
+            Console.WriteLine($"Вы указали максимальную скорость {maxspeed} км/ч");
         }
     }
     public class HumanException : Exception
@@ -58,7 +58,7 @@ namespace Lab5
                 catch (HumanException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
 
 
-                try { Transformer transformer = new Transformer(4, 3000, 4.4, 366, 2017, "Range Rover", engine, 366); }
+                try { Transformer transformer = new Transformer(4, 3000, 4.4, 366, 2017, "Range Rover", engine, 0); }
                 catch (TransformerException ex) { Console.WriteLine("Ошибка: " + ex.Message); }
 
                 Car car3 = new Car(4, 1222, 3.5, 55, 2004, "Volvo v60", engine);
@@ -78,9 +78,10 @@ namespace Lab5
             {
                 int index;
                 index = -10;
-                Debug.Assert(index > -1, "Индекс массива должен быть больше или равен нулю!");
+                Debug.Assert(index > 0, "Индекс массива должен быть больше или 0!");
                 Console.WriteLine($"Выполнение программы завершено!");
             }
         }
     }
 }
+// 4 7 9
